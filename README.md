@@ -4,13 +4,14 @@ This repository was created to investigate a speed difference, that was found be
 Pytorch and Tensorflow 2.x (Eager mode), when training a Lyapunov Critic RL algorithm.
 It currently contains the following comparison scripts:
 
--   **timeit_forward_full_pass_speed_compare.py**:
--   **timeit_lac_algorithm_speed_compare.py**:
--   **timeit_log_prob_speed_compare.py**:
--   **timeit_log_prob_squash_speed_compare.py**:
--   **timeit_rsample_log_prob_speed_compare.py**:
--   **timeit_rsample_log_prob_squash_speed_compare.py**:
--   **timeit_sample_speed_compare.py**:
+-   [timeit_forward_full_pass_speed_compare.py](https://github.com/rickstaa/torch_tf2_lac_speed_compare/blob/main/timeit_forward_full_pass_speed_compare.py):
+      Script used to compare the speed of a forward pass through the networks.
+-   [timeit_lac_algorithm_speed_compare.py](https://github.com/rickstaa/torch_tf2_lac_speed_compare/blob/main/timeit_lac_algorithm_speed_compare.py): Script used to compare the speed of training the full LAC algorithm.
+-   [timeit_log_prob_speed_compare.py](https://github.com/rickstaa/torch_tf2_lac_speed_compare/blob/main/timeit_log_prob_speed_compare.py): Script used to compare the speed of calculating the log_probability of a normal distribution.
+-   [timeit_log_prob_squash_speed_compare.py](https://github.com/rickstaa/torch_tf2_lac_speed_compare/blob/main/timeit_log_prob_squash_speed_compare.py): Script used to compare the speed of calculating the log_probability of a normal distribution and performing a squashing correction on this distribution.
+-   [timeit_rsample_log_prob_speed_compare.py](https://github.com/rickstaa/torch_tf2_lac_speed_compare/blob/main/timeit_rsample_log_prob_speed_compare.py): Script used to compare the speed of rsampling from a normal distribution while also calculating the log_probability of this sampled action.
+-   [timeit_rsample_log_prob_squash_speed_compare.py](https://github.com/rickstaa/torch_tf2_lac_speed_compare/blob/main/timeit_rsample_log_prob_squash_speed_compare.py): Script used to compare the speed of rsampling from a normal distribution, calculating the log probability and performing a squashing correction.
+-   [timeit_sample_speed_compare.py](https://github.com/rickstaa/torch_tf2_lac_speed_compare/blob/main/timeit_sample_speed_compare.py): Script used to compare the speed of sampling/rsampling from a normal distribution.
 
 ## Use instructions
 
@@ -42,4 +43,8 @@ Then you are free to run main.py to train agents. Hyperparameters for training L
 
 ### Usage instructions
 
-The
+To see a speed comparison run the following command:
+
+```bash
+python <SCRIPT_NAME>.py
+```
