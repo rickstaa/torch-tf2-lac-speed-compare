@@ -1,8 +1,9 @@
-"""Contains an in Pytorch implemented LYapunov Critic.
+"""Contains a Pytorch implementation of the Lyapunov Critic.
 """
 
 import torch
 import torch.nn as nn
+
 
 def mlp(sizes, activation, output_activation=nn.Identity):
     """Create a multi-layered perceptron using pytorch.
@@ -26,7 +27,7 @@ def mlp(sizes, activation, output_activation=nn.Identity):
     return nn.Sequential(*layers)
 
 
-class MLPLyapunovCritic(nn.Module):
+class LyapunovCritic(nn.Module):
     """Soft Lyapunov critic Network.
 
     Attributes:
@@ -59,4 +60,4 @@ class MLPLyapunovCritic(nn.Module):
         l_out = self.l(torch.cat([obs, act], dim=-1))
         l_out_squared = torch.square(l_out)
         l_out_summed = torch.sum(l_out_squared, dim=1)
-        return l_out_summed.unsqueeze(dim=1)
+        return l_out_summed.unsqueeze(dim=1)  # L(s,a)

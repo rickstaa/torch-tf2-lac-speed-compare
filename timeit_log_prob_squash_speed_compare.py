@@ -1,20 +1,20 @@
 """Small test script that analysis if there is a speed difference between Pytorch and
 Tensorflow when performing a:
- - Log probability calculation.
- - Action squashing operation
- - Normal distribution squash correction (_forward_log_det_jacobian).
+- Log probability calculation.
+- Action squashing operation
+- Normal distribution squash correction (_forward_log_det_jacobian).
 """
 
 import timeit
 
 # Script settings
-N_SAMPLE = int(5e5)  # How many times we sample
+N_SAMPLE = int(1e5)  # How many times we sample
 
 ######################################################
 # Time logprob calculation + squash operation ########
 ######################################################
 print(
-    "Analysing the speed of performing a action/distrubtion squashing operation "
+    "Analysing the speed of performing a action/distribution squashing operation "
     f"for {N_SAMPLE} times..."
 )
 
@@ -40,6 +40,7 @@ logp_pi -= (2 * (np.log(2) - pi_action - F.softplus(-2 * pi_action))).sum(
     axis=1
 )
 """
+print("Pytorch test...")
 pytorch_time = timeit.timeit(
     pytorch_sample_code, setup=pytorch_setup_code, number=N_SAMPLE
 )
@@ -49,7 +50,7 @@ tf_setup_code = """
 import tensorflow as tf
 import tensorflow_probability as tfp
 from squash_bijector import SquashBijector
-# tf.config.set_visible_devices([], "GPU") # Disable GPU
+tf.config.set_visible_devices([], "GPU") # Disable GPU
 batch_size=256
 mu = tf.zeros((batch_size, 3), dtype=tf.float32)
 std = tf.ones((batch_size, 3), dtype=tf.float32)
@@ -72,11 +73,12 @@ def sample_function():
 tf_sample_code = """
 sample_function()
 """
+print("Tensorflow test...")
 tf_time = timeit.timeit(tf_sample_code, setup=tf_setup_code, number=N_SAMPLE)
 
 ######################################################
 # Print results ######################################
 ######################################################
-print("\Compare Pytorch/Tensorflow log_prob + squash method speed:")
+print("Compare Pytorch/Tensorflow log_prob + squash method speed:")
 print(f"- Pytorch log_prob squash time: {pytorch_time} s")
 print(f"- Tf log_prob squash time: {tf_time} s")

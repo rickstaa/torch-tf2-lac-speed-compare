@@ -1,12 +1,12 @@
 """Small test script that analysis if there is a speed difference between Pytorch and
 Tensorflow when performing a:
- - Log probability calculation.
+- Log probability calculation.
 """
 
 import timeit
 
 # Script settings
-N_SAMPLE = int(5e5)  # How many times we sample
+N_SAMPLE = int(1e5)  # How many times we sample
 
 ######################################################
 # Time logprob calculation ###########################
@@ -35,6 +35,7 @@ pi_distribution = Normal(torch.zeros(batch_size, 3), torch.ones(batch_size, 3))
 pi_action_dummy = torch.rand(batch_size,3)
 logp_pi = pi_distribution.log_prob(pi_action_dummy).sum(axis=-1)
 """
+print("Pytorch test...")
 pytorch_time = timeit.timeit(
     pytorch_sample_code, setup=pytorch_setup_code, number=N_SAMPLE
 )
@@ -60,11 +61,12 @@ def sample_function():
 tf_sample_code = """
 sample_function()
 """
+print("Tensorflow test...")
 tf_time = timeit.timeit(tf_sample_code, setup=tf_setup_code, number=N_SAMPLE)
 
 ######################################################
 # Print results ######################################
 ######################################################
-print("\Compare Pytorch/Tensorflow log_prob calculation speed:")
+print("Compare Pytorch/Tensorflow log_prob calculation speed:")
 print(f"- Pytorch log_prob time: {pytorch_time} s")
 print(f"- Tf log_prob time: {tf_time} s")

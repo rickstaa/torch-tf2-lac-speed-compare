@@ -1,4 +1,4 @@
-"""Contains an in Tensorflow implemented LYapunov Critic.
+"""Contains a Tensorflow2.x implementation of the Lyapunov Critic.
 """
 
 import tensorflow as tf

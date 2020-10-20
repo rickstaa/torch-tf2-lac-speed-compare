@@ -1,4 +1,4 @@
-"""Contains a in Tensorflow implemented Squashed Gaussian Actor.
+"""Contains a Tensorflow2.x implementation of the Squashed Gaussian Actor.
 """
 
 import tensorflow as tf

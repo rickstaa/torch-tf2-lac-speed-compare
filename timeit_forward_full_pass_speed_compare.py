@@ -1,13 +1,12 @@
 """Small test script that analysis if there is a speed difference between Pytorch and
 Tensorflow when:
- - Performing a forward pass through my Actor and Critic network.
+- Performing a forward pass through my Actor and Critic network.
 """
 
 import timeit
 
 # Script settings
-N_SAMPLE = int(1e4)  # How many times we sample
-# N_SAMPLE = int(5e5)  # How many times we sample
+N_SAMPLE = int(1e5)  # How many times we sample
 
 ######################################################
 # Time Actor and Critic forward pass #################
@@ -21,19 +20,19 @@ print(
 # Time Pytorch version
 pytorch_setup_code = """
 import torch
-from gaussian_actor_torch import SquashedGaussianMLPActor
-from lyapunov_critic_torch import MLPLyapunovCritic
-torch.set_default_tensor_type('torch.cuda.FloatTensor') # Enable global GPU
+from gaussian_actor_torch import SquashedGaussianActor
+from lyapunov_critic_torch import LyapunovCritic
+# torch.set_default_tensor_type('torch.cuda.FloatTensor') # Enable global GPU
 # torch.backends.cudnn.benchmark = True  # Enable cudnn autotuner
-torch.backends.cudnn.fastest = True  # Enable cudnn fastest autotuner
-ga = SquashedGaussianMLPActor(
+# torch.backends.cudnn.fastest = True  # Enable cudnn fastest autotuner
+ga = SquashedGaussianActor(
     obs_dim=8,
     act_dim=3,
     hidden_sizes=[64, 64],
     log_std_min=-20,
     log_std_max=2,
 )
-lc =  MLPLyapunovCritic(
+lc =  LyapunovCritic(
     obs_dim=8,
     act_dim=3,
     hidden_sizes=[128, 128],
@@ -45,6 +44,7 @@ pytorch_sample_code = """
 _, _, _ = ga(bs)
 _ = lc(bs, ba)
 """
+print("Pytorch test...")
 pytorch_time = timeit.timeit(
     pytorch_sample_code, setup=pytorch_setup_code, number=N_SAMPLE
 )
@@ -74,6 +74,7 @@ tf_sample_code = """
 _, _, _ = ga(bs)
 _ = lc([bs, ba])
 """
+print("Tensorflow test...")
 tf_time = timeit.timeit(tf_sample_code, setup=tf_setup_code, number=N_SAMPLE)
 
 

@@ -1,14 +1,14 @@
 """Small test script that analysis if there is a speed difference between Pytorch and
 Tensorflow when:
- - R sampling a action from a normal distribution
- - Calculating the Log probability based on this sample.
- - Squashing the action.
- - Normal distribution squash correction (_forward_log_det_jacobian).
+- R sampling a action from a normal distribution
+- Calculating the Log probability based on this sample.
+- Squashing the action.
+- Normal distribution squash correction (_forward_log_det_jacobian).
 """
 import timeit
 
 # Script settings
-N_SAMPLE = int(5e5)  # How many times we sample
+N_SAMPLE = int(1e5)  # How many times we sample
 
 ######################################################
 # Time rsample + logprob calculation + squash ########
@@ -26,9 +26,9 @@ import torch
 import numpy as np
 import torch.nn.functional as F
 from torch.distributions.normal import Normal
-torch.set_default_tensor_type('torch.cuda.FloatTensor') # Enable global GPU
+# torch.set_default_tensor_type('torch.cuda.FloatTensor') # Enable global GPU
 # torch.backends.cudnn.benchmark = True  # Enable cudnn autotuner
-torch.backends.cudnn.fastest = True  # Enable cudnn fastest autotuner
+# torch.backends.cudnn.fastest = True  # Enable cudnn fastest autotuner
 batch_size=256
 mu = torch.zeros(batch_size, 3)
 std = torch.ones(batch_size, 3)
@@ -44,6 +44,7 @@ logp_pi -= (2 * (np.log(2) - pi_action - F.softplus(-2 * pi_action))).sum(
     axis=1
 )
 """
+print("Pytorch test...")
 pytorch_time = timeit.timeit(
     pytorch_sample_code, setup=pytorch_setup_code, number=N_SAMPLE
 )
@@ -76,6 +77,7 @@ def sample_function():
 tf_sample_code = """
 sample_function()
 """
+print("Tensorflow test...")
 tf_time = timeit.timeit(tf_sample_code, setup=tf_setup_code, number=N_SAMPLE)
 
 ######################################################

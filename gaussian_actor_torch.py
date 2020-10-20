@@ -1,4 +1,4 @@
-"""Contains an in Pytorch implemented Squashed Gaussian Actor.
+"""Contains a Pytorch implementation of the Squashed Gaussian Actor.
 """
 
 import numpy as np
@@ -31,7 +31,7 @@ def mlp(sizes, activation, output_activation=nn.Identity):
     return nn.Sequential(*layers)
 
 
-class SquashedGaussianMLPActor(nn.Module):
+class SquashedGaussianActor(nn.Module):
     """The squashed gaussian actor network.
 
     Attributes:
