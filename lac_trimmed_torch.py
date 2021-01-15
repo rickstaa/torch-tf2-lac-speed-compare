@@ -150,7 +150,6 @@ class LAC(object):
         self.a_train.step()
 
         # = Optimize critic =
-        # NOTE: Zero gradients on the critic
         self.l_train.zero_grad()
 
         # Calculate L_backup

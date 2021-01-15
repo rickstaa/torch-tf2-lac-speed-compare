@@ -48,3 +48,21 @@ To see a speed comparison run the following command:
 ```bash
 python <SCRIPT_NAME>.py
 ```
+
+#### GPU settings
+
+In each script you can disable or enable the GPU. For the tensorflow version you can disable the GPU by un-commenting the following line:
+
+```python
+tf.config.set_visible_devices([], "GPU") # Disable GPU`
+```
+
+In PYtorch you can enable the gpu by un-commenting the following lines:
+
+```python
+# torch.set_default_tensor_type('torch.cuda.FloatTensor') # Enable global GPU
+# torch.backends.cudnn.benchmark = True  # Enable cudnn autotuner
+# torch.backends.cudnn.fastest = True  # Enable cudnn fastest autotuner
+```
+
+The last two modes are related to the settings for the cudnn autotuner (see [this forum post](https://duckduckgo.com/?q=torch.backends.cudnn.fastest&t=newext&atb=v243-1&ia=web) for more information).
